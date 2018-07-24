@@ -1,0 +1,287 @@
+package sample;
+
+import com.sun.deploy.util.StringUtils;
+import com.sun.org.apache.xpath.internal.functions.FuncContains;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.WindowEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
+    private double ftz = 24; // Font Text Size
+    private String ff = "Ubuntu"; // Font Family
+    private String tic = "white"; // Text Inner Color
+    private int themess = 0; // Theme S selected
+    @FXML
+    public TextArea tftype; // The text typed for the USER
+    public VBox Vboxmain;
+    public RadioMenuItem lightbt;
+    public RadioMenuItem darkbt;
+    private ToggleGroup themer = new ToggleGroup();
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb){
+        update();
+        tftype.setWrapText(true);
+        lightbt.setToggleGroup(themer);
+        darkbt.setToggleGroup(themer);
+        darkbt.setSelected(true);
+
+    }
+
+    public void save() { // Save what was typed for USER
+        Vboxmain.setDisable(true);
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text document (*.txt)", "txt");
+        JFileChooser fs = new JFileChooser(new File(""));
+        fs.setDialogTitle("Save Your Document");
+        fs.setFileFilter(filter);
+        int result = fs.showSaveDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION){
+            String savetxt = tftype.getText();
+            File saver = fs.getSelectedFile();
+            try {
+                String ex = "";
+                FileFilter fk = fs.getFileFilter();
+                String fkstring = fk.toString();
+                if(fkstring.contains("txt")){
+                    ex = ".txt";
+                }
+                FileWriter fw = new FileWriter(saver.getPath() + ex);
+                fw.write(savetxt);
+                fw.flush();
+                fw.close();
+            }
+            catch (Exception e2){
+                JOptionPane.showMessageDialog(null, e2.getMessage());
+            }
+
+        }
+        Vboxmain.setDisable(false);
+    }
+
+    public void load() { // Load a archive *.txt
+        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text document (*.txt)", "txt");
+        JFileChooser fs = new JFileChooser();
+        fs.setDialogTitle("Load your document");
+        fs.setFileFilter(filter);
+        int result = fs.showOpenDialog(null);
+        if (result == JFileChooser.APPROVE_OPTION){
+
+            try{
+                File saver = fs.getSelectedFile();
+                BufferedReader b = new BufferedReader(new FileReader(saver.getPath()));
+                String line;
+                StringBuilder s = new StringBuilder();
+                while ((line = b.readLine()) != null){
+                    s.append(line);
+                }
+                tftype.setText(s.toString());
+                b.close();
+            }
+            catch (Exception e2){
+                JOptionPane.showMessageDialog(null, e2.getMessage());
+            }
+
+        }
+    }
+
+    private void update(){
+        String theme = "white";
+        if(themess == 0){theme = "black";tic = "white";} // Dark Theme
+        if(themess == 1){theme = "white";tic = "black";} // Light Theme
+        tftype.setStyle("-fx-font-family: " + ff + "; -fx-text-inner-color: " + tic +";  -fx-font-size: " + ftz + "; text-area-background: " + theme);
+        Vboxmain.setStyle("text-area-background: " + theme);
+
+
+    }
+
+    public void scp(){ // Source Code Pro
+        ff = "'Source Code Pro'";
+        update();
+        System.out.println("Source Code Pro");
+    }
+
+    public void arial(){
+        ff = "Arial";
+        update();
+        System.out.println("Arial");
+    }
+
+    public void ubuntu(){
+        ff = "Ubuntu";
+        update();
+        System.out.println("Ubuntu");
+    }
+
+    public void exit() { // Exit from the program (Close)
+        Platform.exit(); // Close the program
+
+    }
+
+    public void n6() {
+        ftz = 6;
+        tftype.setStyle("-fx-text-inner-color: white; -fx-font-size: " + ftz);
+    }
+
+    public void n7() {
+        ftz = 7;
+        update();
+    }
+
+    public void n8() {
+        ftz = 8;
+        update();
+    }
+
+    public void n10() {
+        ftz = 10;
+        update();
+    }
+
+    public void n9() {
+        ftz = 9;
+        update();
+    }
+
+    public void n10p5() {
+        ftz = 10.5;
+        update();
+    }
+
+    public void n11() {
+        ftz = 11;
+        update();
+    }
+
+    public void n12() {
+        ftz = 12;
+        update();
+    }
+
+    public void n13() {
+        ftz = 13;
+        update();
+    }
+
+    public void n14() {
+        ftz = 14;
+        update();
+    }
+
+    public void n15() {
+        ftz = 15;
+        update();
+    }
+
+    public void n16() {
+        ftz = 16;
+        update();
+    }
+
+    public void n18() {
+        ftz = 18;
+        update();
+    }
+
+    public void n20() {
+        ftz = 20;
+        update();
+    }
+
+    public void n22() {
+        ftz = 22;
+        update();
+    }
+
+    public void n24() {
+        ftz = 24;
+        update();
+    }
+
+    public void n26() {
+        ftz = 26;
+        update();
+    }
+
+    public void n28() {
+        ftz = 28;
+        update();
+    }
+
+    public void n32() {
+        ftz = 32;
+        update();
+    }
+
+    public void n36() {
+        ftz = 36;
+        update();
+    }
+
+    public void n40() {
+        ftz = 40;
+        update();
+    }
+
+    public void n44() {
+        ftz = 44;
+        update();
+    }
+
+    public void n48() {
+        ftz = 48;
+        update();
+    }
+
+    public void n54() {
+        ftz = 54;
+        update();
+    }
+
+    public void n60() {
+        ftz = 60;
+        update();
+    }
+
+    public void n66() {
+        ftz = 66;
+        update();
+    }
+
+    public void n72() {
+        ftz = 72;
+        update();
+    }
+
+
+    public void darkTheme() {
+        System.out.println("Dark Theme");
+        themess = 0; // Number of the theme; 0 = dark theme
+        update();
+    }
+    public void lightTheme(){
+        System.out.println("Light Theme");
+        themess = 1; // Number of the theme; 1 = light theme
+        update();
+    }
+
+}
