@@ -1,24 +1,16 @@
 package sample;
 
-import com.sun.deploy.util.StringUtils;
-import com.sun.org.apache.xpath.internal.functions.FuncContains;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -105,7 +97,7 @@ public class Controller implements Initializable {
     }
 
     private void update(){
-        String theme = "white";
+        String theme = "null";
         if(themess == 0){theme = "black";tic = "white";} // Dark Theme
         if(themess == 1){theme = "white";tic = "black";} // Light Theme
         tftype.setStyle("-fx-font-family: " + ff + "; -fx-text-inner-color: " + tic +";  -fx-font-size: " + ftz + "; text-area-background: " + theme);
