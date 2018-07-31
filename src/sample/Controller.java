@@ -26,6 +26,7 @@ public class Controller implements Initializable {
     private ToggleGroup themer = new ToggleGroup();
     public Parent Vboxmain;
 
+
     @Override
     public void initialize(URL url, ResourceBundle rb){
         update();
@@ -34,9 +35,10 @@ public class Controller implements Initializable {
         darkbt.setToggleGroup(themer);
         darkbt.setSelected(true);
 
+
     }
 
-    public void save() throws IOException { // Save what was typed for USER
+    public void save() throws IOException, java.lang.NullPointerException { // Save what was typed for USER
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", "*.txt");
         FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*");
         String txtSaving = tftype.getText();
@@ -51,13 +53,19 @@ public class Controller implements Initializable {
                 if (file.getCanonicalPath().endsWith("txt")) {
                     extension = "*.txt";
                 } else {
-                    extension = "";
+                    extension = null;
                 }
             }
             FileWriter f = new FileWriter(file + extension);
             f.write(txtSaving);
             f.close();
 
+
+        }
+        try {
+            ((Stage) Vboxmain.getScene().getWindow()).setTitle(file.getName() + " - SSG Note Block");
+        } catch (java.lang.NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
@@ -78,7 +86,12 @@ public class Controller implements Initializable {
                 tftype.setText(tftype.getText() + linha + "\n");
                 linha = readerl.readLine();
             }
-
+            reader.close();
+        }
+        try {
+            ((Stage) Vboxmain.getScene().getWindow()).setTitle(file.getName() + " - SSG Note Block");
+        } catch (java.lang.NullPointerException e) {
+            e.printStackTrace();
         }
     }
 
