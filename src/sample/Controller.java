@@ -1,28 +1,18 @@
 package sample;
 
-import com.sun.deploy.util.StringUtils;
-import com.sun.org.apache.xpath.internal.functions.FuncContains;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.RadioMenuItem;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleGroup;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -33,10 +23,10 @@ public class Controller implements Initializable {
     private int themess = 0; // Theme S selected
     @FXML
     public TextArea tftype; // The text typed for the USER
-    public VBox Vboxmain;
     public RadioMenuItem lightbt;
     public RadioMenuItem darkbt;
     private ToggleGroup themer = new ToggleGroup();
+    public Parent Vboxmain;
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -48,34 +38,27 @@ public class Controller implements Initializable {
 
     }
 
-    public void save() { // Save what was typed for USER
-        Vboxmain.setDisable(true);
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text document (*.txt)", "txt");
-        JFileChooser fs = new JFileChooser(new File(""));
-        fs.setDialogTitle("Save Your Document");
-        fs.setFileFilter(filter);
-        int result = fs.showSaveDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION){
-            String savetxt = tftype.getText();
-            File saver = fs.getSelectedFile();
-            try {
-                String ex = "";
-                FileFilter fk = fs.getFileFilter();
-                String fkstring = fk.toString();
-                if(fkstring.contains("txt")){
-                    ex = ".txt";
-                }
-                FileWriter fw = new FileWriter(saver.getPath() + ex);
-                fw.write(savetxt);
-                fw.flush();
-                fw.close();
+    public void save() throws IOException { // Save what was typed for USER
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", ".txt");
+        FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*"); // Represent all files with the extension "*"
+        String txtSaving = tftype.getText();
+        FileChooser escoger = new FileChooser();
+        escoger.getExtensionFilters().addAll(filter, filter2);
+        Stage vista = (Stage) Vboxmain.getScene().getWindow();
+        File file = escoger.showSaveDialog(vista);
+
+        if (file != null) {
+            String extension;
+            if (file.getCanonicalPath().endsWith("txt")) {
+                extension = ".txt";
+            } else {
+                extension = "";
             }
-            catch (Exception e2){
-                JOptionPane.showMessageDialog(null, e2.getMessage());
-            }
+            FileWriter f = new FileWriter(file + extension);
+            f.write(txtSaving);
+            f.close();
 
         }
-        Vboxmain.setDisable(false);
     }
 
     public void load() { // Load a archive *.txt
@@ -105,7 +88,7 @@ public class Controller implements Initializable {
     }
 
     private void update(){
-        String theme = "white";
+        String theme = "null";
         if(themess == 0){theme = "black";tic = "white";} // Dark Theme
         if(themess == 1){theme = "white";tic = "black";} // Light Theme
         tftype.setStyle("-fx-font-family: " + ff + "; -fx-text-inner-color: " + tic +";  -fx-font-size: " + ftz + "; text-area-background: " + theme);
