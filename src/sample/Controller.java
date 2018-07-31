@@ -7,13 +7,9 @@ import javafx.scene.Parent;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -41,7 +37,7 @@ public class Controller implements Initializable {
     }
 
     public void save() throws IOException { // Save what was typed for USER
-        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", ".txt");
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", "*.txt");
         FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*");
         String txtSaving = tftype.getText();
         FileChooser escoger = new FileChooser();
@@ -50,9 +46,14 @@ public class Controller implements Initializable {
         File file = escoger.showSaveDialog(vista);
 
         if (file != null) {
-            String extension;
-            if(file.getCanonicalPath().endsWith("txt")){extension = ".txt";}
-            else{extension = "";}
+            String extension = "";
+            if (!file.toString().contains(".txt")) {
+                if (file.getCanonicalPath().endsWith("txt")) {
+                    extension = "*.txt";
+                } else {
+                    extension = "";
+                }
+            }
             FileWriter f = new FileWriter(file + extension);
             f.write(txtSaving);
             f.close();
@@ -60,27 +61,22 @@ public class Controller implements Initializable {
         }
     }
 
-    public void load() { // Load a archive *.txt
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text document (*.txt)", "txt");
-        JFileChooser fs = new JFileChooser();
-        fs.setDialogTitle("Load your document");
-        fs.setFileFilter(filter);
-        int result = fs.showOpenDialog(null);
-        if (result == JFileChooser.APPROVE_OPTION){
+    public void load() throws IOException { // Load a archive *.txt
+        FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", "*.txt");
+        FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*");
+        FileChooser escoger = new FileChooser();
+        escoger.getExtensionFilters().addAll(filter, filter2);
+        Stage vista = (Stage) Vboxmain.getScene().getWindow();
+        File file = escoger.showOpenDialog(vista);
 
-            try{
-                File saver = fs.getSelectedFile();
-                BufferedReader b = new BufferedReader(new FileReader(saver.getPath()));
-                String line;
-                StringBuilder s = new StringBuilder();
-                while ((line = b.readLine()) != null){
-                    s.append(line);
-                }
-                tftype.setText(s.toString());
-                b.close();
-            }
-            catch (Exception e2){
-                JOptionPane.showMessageDialog(null, e2.getMessage());
+        if (file != null) {
+            FileReader reader = new FileReader(file);
+            BufferedReader readerl = new BufferedReader(reader);
+            String linha = readerl.readLine();
+            tftype.setText("");
+            while (linha != null) {
+                tftype.setText(tftype.getText() + linha + "\n");
+                linha = readerl.readLine();
             }
 
         }
