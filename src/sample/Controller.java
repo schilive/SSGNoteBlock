@@ -40,7 +40,7 @@ public class Controller implements Initializable {
 
     public void save() throws IOException { // Save what was typed for USER
         FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", ".txt");
-        FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*"); // Represent all files
+        FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*"); // Represent all files with the extension "*"
         String txtSaving = tftype.getText();
         FileChooser escoger = new FileChooser();
         escoger.getExtensionFilters().addAll(filter, filter2);
