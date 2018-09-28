@@ -3,12 +3,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.VBox?>
 <VBox fx:id="Vboxmain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styleall.css" xmlns="http://javafx.com/javafx/8"
+      prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styleall.css" xmlns="http://javafx.com/javafx/10.0.1"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
     <MenuBar stylesheets="@../css/styleMenu.css">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" onAction="#save" text="Save"/>
-            <MenuItem mnemonicParsing="false" onAction="#load" text="Open"/>
+            <MenuItem mnemonicParsing="false" onAction="#news" text="New              Ctrl+N"/>
+            <MenuItem mnemonicParsing="false" onAction="#load" text="Open...          Ctrl+O"/>
+            <MenuItem mnemonicParsing="false" onAction="#save" text="Save              Ctrl+S"/>
+            <MenuItem mnemonicParsing="false" onAction="#saveAs" text="Save As..."/>
             <MenuItem mnemonicParsing="false" onAction="#exit" text="Exit"/>
         </Menu>
         <Menu mnemonicParsing="false" text="Style">
@@ -50,13 +52,11 @@
                 </Menu>
             </Menu>
             <Menu mnemonicParsing="false" text="Themes">
-                <RadioMenuItem fx:id="lightbt" mnemonicParsing="false" onAction="#lightTheme"
-                               text="Light Theme"/>
-                <RadioMenuItem fx:id="darkbt" mnemonicParsing="false" onAction="#darkTheme"
-                               text="Dark Theme"/>
+                <RadioMenuItem fx:id="lightbt" mnemonicParsing="false" onAction="#lightTheme" text="Light Theme"/>
+                <RadioMenuItem fx:id="darkbt" mnemonicParsing="false" onAction="#darkTheme" text="Dark Theme"/>
             </Menu>
         </Menu>
     </MenuBar>
-    <TextArea fx:id="tftype" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="1024.0" prefWidth="1280.0"
-              stylesheets="@../css/styletf.css"/>
+    <TextArea fx:id="tftype" maxHeight="4096" maxWidth="3072" onKeyPressed="#keyPress" prefHeight="1024.0"
+              prefWidth="1280.0" stylesheets="@../css/styletf.css"/>
 </VBox>

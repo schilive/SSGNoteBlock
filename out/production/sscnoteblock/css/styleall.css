@@ -1,3 +1,5 @@
+.text-area{text-area-background:#fff}.text-area .content{-fx-background-color:text-area-background}
+/*
 .text-area {
     text-area-background: white ;
 }
@@ -5,3 +7,4 @@
 .text-area .content {
     -fx-background-color: text-area-background ;
 }
+*/
