@@ -11,13 +11,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -30,7 +28,7 @@ import java.util.ResourceBundle;
 // JavaFX fxml
 // JavaFX scene
 // JavaFX stage
-//JavaFX Io
+// JavaFX IO
 // initialize
 
 
@@ -56,9 +54,7 @@ public class Controller implements Initializable {
     public RadioMenuItem lightbt; // Button to change to light theme (themer)
     public RadioMenuItem darkbt; // Button to change to dark theme (themer)
     public Parent Vboxmain; // The head of all
-    public AnchorPane exitAnchor;
 
-    public Label cancel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) { // Be activates when the program opens.
@@ -157,47 +153,36 @@ public class Controller implements Initializable {
     }
 
     public void keyPress(KeyEvent keyEvent) {
+        Timeline time = new Timeline();
+        time.setCycleCount(Timeline.INDEFINITE);
         if (keyEvent.getCode() == KeyCode.CONTROL) {
-            System.out.println(keyEvent.getEventType());
             controlKey.set(true);
-            Timeline time = new Timeline();
-            time.setCycleCount(Timeline.INDEFINITE);
             KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
                 controlKey.set(false);
-                System.out.println('b');
                 time.stop();
             });
             time.getKeyFrames().add(frame);
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.N) {
             nKey.set(true);
-            Timeline time = new Timeline();
-            time.setCycleCount(Timeline.INDEFINITE);
             KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
                 nKey.set(false);
-                System.out.println('N');
                 time.stop();
             });
             time.getKeyFrames().add(frame);
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.O) {
             oKey.set(true);
-            Timeline time = new Timeline();
-            time.setCycleCount(Timeline.INDEFINITE);
             KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
                 nKey.set(false);
-                System.out.println('O');
                 time.stop();
             });
             time.getKeyFrames().add(frame);
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.S) {
             sKey.set(true);
-            Timeline time = new Timeline();
-            time.setCycleCount(Timeline.INDEFINITE);
             KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
                 nKey.set(false);
-                System.out.println('S');
                 time.stop();
             });
             time.getKeyFrames().add(frame);
@@ -205,7 +190,6 @@ public class Controller implements Initializable {
         }
         newShortcut.addListener((observable, oldValue, newValue) -> {
             if (nKey.get() && controlKey.get()) {
-                System.out.println("Control+N");
                 nKey.set(false);
                 controlKey.set(false);
                 news();
@@ -214,7 +198,6 @@ public class Controller implements Initializable {
         });
         openShortcut.addListener((observable, oldValue, newValue) -> {
             if (oKey.get() && controlKey.get()) {
-                System.out.println("Control+N");
                 oKey.set(false);
                 controlKey.set(false);
                 try {
@@ -226,7 +209,6 @@ public class Controller implements Initializable {
         });
         saveShortcut.addListener((observable, oldValue, newValue) -> {
             if (sKey.get() && controlKey.get()) {
-                System.out.println("Control+S");
                 sKey.set(false);
                 controlKey.set(false);
                 try {

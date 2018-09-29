@@ -1,6 +1,7 @@
 package sample;
 
 // JavaFX All
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,7 +12,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 // JavaFX Scene
-// Others
+
 
 public class sscnoteblock extends Application {
 
@@ -21,8 +22,9 @@ public class sscnoteblock extends Application {
         primaryStage.setTitle("Untitled - SSG Note Block");
         primaryStage.setScene(new Scene(root, 1280, 1024));
         primaryStage.setMaximized(true);
-        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("../images/sbi.png")));
+        primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/sbi.png")));
         primaryStage.show();
+
 
     }
 }
