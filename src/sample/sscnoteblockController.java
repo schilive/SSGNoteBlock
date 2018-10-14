@@ -9,8 +9,10 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.ToggleGroup;
@@ -20,6 +22,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,7 +35,7 @@ import java.util.ResourceBundle;
 // initialize
 
 
-public class Controller implements Initializable {
+public class sscnoteblockController implements Initializable {
     private double ftz = 24; // Font Text Size
     private String ff = "Ubuntu"; // Font Family
     private String tic = "white"; // Text Inner Color
@@ -150,6 +153,11 @@ public class Controller implements Initializable {
 
     public void news() {
         tftype.setText(null);
+        try {
+            exiter("SSC Note Block", "Do you wanna save your file?");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void keyPress(KeyEvent keyEvent) {
@@ -401,31 +409,27 @@ public class Controller implements Initializable {
 
     }
 
-//    public void exiter(String title, String menssage) throws IOException, java.lang.NullPointerException{
-//        try {
-//            Stage stage = (Stage) Vboxmain.getScene().getWindow();
-//            stage = new Stage();
-//            Parent root = FXMLLoader.load(getClass().getResource("exit.fxml"));
-//            stage.setTitle(title);
-//            cancel.setText(menssage);
-//            stage.setTitle("SSG Note Block");
-//            stage.setScene(new Scene(root));
-//            stage.initOwner(stage);
-//            stage.show();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }catch (java.lang.NullPointerException b){
-//            b.printStackTrace();
-//        }
-//
-//    }
-//
-//    public void close() {
-//        System.exit(ExitException.OK);
-//    }
-//
-//    public void closeOne(ActionEvent actionEvent) {
-//
-//
-//    }
+    public void exiter(String title, String menssage) throws java.lang.NullPointerException {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exit.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("ABC");
+            stage.setScene(new Scene(root1));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void close() {
+        System.exit(0);
+    }
+
+    public void closeOne(ActionEvent actionEvent) {
+
+
+    }
 }

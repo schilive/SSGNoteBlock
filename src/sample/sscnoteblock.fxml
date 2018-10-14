@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.VBox?>
 <VBox fx:id="Vboxmain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
       prefHeight="400.0" prefWidth="600.0" stylesheets="@../css/styleall.css" xmlns="http://javafx.com/javafx/10.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.sscnoteblockController">
     <MenuBar stylesheets="@../css/styleMenu.css">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" onAction="#news" text="New              Ctrl+N"/>
