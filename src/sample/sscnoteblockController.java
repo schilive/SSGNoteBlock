@@ -48,7 +48,6 @@ public class sscnoteblockController implements Initializable {
     private final BooleanBinding newShortcut = controlKey.and(nKey);
     private final BooleanBinding openShortcut = controlKey.and(oKey);
     private final BooleanBinding saveShortcut = controlKey.and(sKey);
-    private String lastTxt = "";
     @FXML
     public TextArea tftype; // The text typed for the USER
     public RadioMenuItem lightbt; // Button to change to light theme (themer)
@@ -92,7 +91,6 @@ public class sscnoteblockController implements Initializable {
                 savedFile = file;
                 savedFileExt = extension;
                 saveAs = false;
-                lastTxt = txtSaving;
             }
             try {
                 if (file != null) {
@@ -106,7 +104,6 @@ public class sscnoteblockController implements Initializable {
             FileWriter f = new FileWriter(savedFile + savedFileExt);
             f.write(tftype.getText());
             f.close();
-            lastTxt = tftype.getText();
         }
     }
 
