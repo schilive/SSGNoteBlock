@@ -9,22 +9,18 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.RadioMenuItem;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.event.ActionEvent;
 import java.io.*;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 // JavaFX beans
@@ -52,12 +48,12 @@ public class sscnoteblockController implements Initializable {
     private final BooleanBinding newShortcut = controlKey.and(nKey);
     private final BooleanBinding openShortcut = controlKey.and(oKey);
     private final BooleanBinding saveShortcut = controlKey.and(sKey);
+    private String lastTxt = "";
     @FXML
     public TextArea tftype; // The text typed for the USER
     public RadioMenuItem lightbt; // Button to change to light theme (themer)
     public RadioMenuItem darkbt; // Button to change to dark theme (themer)
     public Parent Vboxmain; // The head of all
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb) { // Be activates when the program opens.
@@ -74,7 +70,7 @@ public class sscnoteblockController implements Initializable {
         if (!savedFileB || saveAs) {
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", "*.txt"); // Creates a filter with the description "Text Document (*.txt)" (The description is what shows when you selects the extension) and with the extension "*txt" or "*txy" or "*.txt"
             FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*"); // Creates a filter with the description ""All Files (.*.)" (The description is what shows when you selects the extension) and with the extension "*.*"
-            String txtSaving = tftype.getText(); // Gets the text from the TextArea
+            String txtSaving = tftype.getText();
             FileChooser escoger = new FileChooser(); // Creates a FileChooser (It's in the name)
             escoger.getExtensionFilters().addAll(filter, filter2); // Adds the extension created before
             Stage vista = (Stage) Vboxmain.getScene().getWindow(); // Creates a Stage variable using the Vboxmain as window.
@@ -96,6 +92,7 @@ public class sscnoteblockController implements Initializable {
                 savedFile = file;
                 savedFileExt = extension;
                 saveAs = false;
+                lastTxt = txtSaving;
             }
             try {
                 if (file != null) {
@@ -109,6 +106,7 @@ public class sscnoteblockController implements Initializable {
             FileWriter f = new FileWriter(savedFile + savedFileExt);
             f.write(tftype.getText());
             f.close();
+            lastTxt = tftype.getText();
         }
     }
 
@@ -153,11 +151,7 @@ public class sscnoteblockController implements Initializable {
 
     public void news() {
         tftype.setText(null);
-        try {
-            exiter("SSC Note Block", "Do you wanna save your file?");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        exiter();
     }
 
     public void keyPress(KeyEvent keyEvent) {
@@ -165,7 +159,7 @@ public class sscnoteblockController implements Initializable {
         time.setCycleCount(Timeline.INDEFINITE);
         if (keyEvent.getCode() == KeyCode.CONTROL) {
             controlKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
                 controlKey.set(false);
                 time.stop();
             });
@@ -173,7 +167,7 @@ public class sscnoteblockController implements Initializable {
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.N) {
             nKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
                 nKey.set(false);
                 time.stop();
             });
@@ -181,7 +175,7 @@ public class sscnoteblockController implements Initializable {
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.O) {
             oKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
                 nKey.set(false);
                 time.stop();
             });
@@ -189,7 +183,7 @@ public class sscnoteblockController implements Initializable {
             time.playFromStart();
         } else if (keyEvent.getCode() == KeyCode.S) {
             sKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.5), event -> {
+            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
                 nKey.set(false);
                 time.stop();
             });
@@ -234,8 +228,6 @@ public class sscnoteblockController implements Initializable {
         if(themess == 0){theme = "black";tic = "white";} // Dark Theme
         if(themess == 1){theme = "white";tic = "black";} // Light Theme
         tftype.setStyle("-fx-font-family: " + ff + "; -fx-text-inner-color: " + tic +";  -fx-font-size: " + ftz + "; text-area-background: " + theme);
-        Vboxmain.setStyle("text-area-background: " + theme);
-
 
     }
 
@@ -409,27 +401,28 @@ public class sscnoteblockController implements Initializable {
 
     }
 
-    public void exiter(String title, String menssage) throws java.lang.NullPointerException {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("exit.fxml"));
-            Parent root1 = fxmlLoader.load();
-            Stage stage = new Stage();
-            stage.setTitle("ABC");
-            stage.setScene(new Scene(root1));
-            stage.show();
+    public void exiter() {
+        Alert exitAlert = new Alert(Alert.AlertType.NONE);
+        exitAlert.setTitle("SSC Note Block");
+        exitAlert.setHeaderText("Do you want to save the changes?");
+        exitAlert.setContentText(null);
+        ButtonType buttonCancel = new ButtonType("Cancel");
+        ButtonType buttonDntSave = new ButtonType("Don't Save");
+        ButtonType buttonSave = new ButtonType("Save");
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        exitAlert.getButtonTypes().setAll(buttonSave, buttonDntSave, buttonCancel);
+        Optional<ButtonType> result = exitAlert.showAndWait();
+        if (result.get() == buttonDntSave) {
+            System.exit(0);
         }
-
+        if (result.get() == buttonSave) {
+            try {
+                save();
+            } catch (IOException ignored) {
+            }
+            System.exit(0);
+        }
+    }
     }
 
-    public void close() {
-        System.exit(0);
-    }
 
-    public void closeOne(ActionEvent actionEvent) {
-
-
-    }
-}

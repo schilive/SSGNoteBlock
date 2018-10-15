@@ -23,6 +23,10 @@ public class sscnoteblock extends Application {
         primaryStage.setScene(new Scene(root, 1280, 1024));
         primaryStage.setMaximized(true);
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/sbi.png")));
+        primaryStage.setOnCloseRequest(e -> {
+            e.consume();
+            new sscnoteblockController().exiter();
+        });
         primaryStage.show();
 
 
