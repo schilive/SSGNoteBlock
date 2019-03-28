@@ -25,7 +25,8 @@ public class sscnoteblock extends Application {
         primaryStage.getIcons().add(new Image(getClass().getResourceAsStream("/images/sbi.png")));
         primaryStage.setOnCloseRequest(e -> {
             e.consume();
-            new sscnoteblockController().exiter();
+            sscnoteblockController sscnoteblockController = new sscnoteblockController();
+            sscnoteblockController.exiter();
         });
         primaryStage.show();
 

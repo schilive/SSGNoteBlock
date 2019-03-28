@@ -69,8 +69,12 @@ public class sscnoteblockController implements Initializable {
         if (!savedFileB || saveAs) {
             FileChooser.ExtensionFilter filter = new FileChooser.ExtensionFilter("Text document (*.txt)", "*.txt"); // Creates a filter with the description "Text Document (*.txt)" (The description is what shows when you selects the extension) and with the extension "*txt" or "*txy" or "*.txt"
             FileChooser.ExtensionFilter filter2 = new FileChooser.ExtensionFilter("All Files (.*.)", "*"); // Creates a filter with the description ""All Files (.*.)" (The description is what shows when you selects the extension) and with the extension "*.*"
-            String txtSaving = tftype.getText();
+            if(tftype == null){
+                System.out.println("null");
+            }
             FileChooser escoger = new FileChooser(); // Creates a FileChooser (It's in the name)
+            if(saveAs){escoger.setTitle("Save As - SSG Note Block");}
+            else{escoger.setTitle("Save - SSG Note Block");}
             escoger.getExtensionFilters().addAll(filter, filter2); // Adds the extension created before
             Stage vista = (Stage) Vboxmain.getScene().getWindow(); // Creates a Stage variable using the Vboxmain as window.
             File file = escoger.showSaveDialog(vista); // Start the fileChooser (escoger)
@@ -85,7 +89,7 @@ public class sscnoteblockController implements Initializable {
                     }
                 }
                 FileWriter f = new FileWriter(file + extension);
-                f.write(txtSaving);
+                //f.write(txtSaving);
                 f.close();
                 savedFileB = true;
                 savedFile = file;
@@ -148,7 +152,17 @@ public class sscnoteblockController implements Initializable {
 
     public void news() {
         tftype.setText(null);
-        exiter();
+    }
+
+    private void timerKeyPress(BooleanProperty x){
+        Timeline time = new Timeline();
+        time.setCycleCount(Timeline.INDEFINITE);
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
+           x.set(false);
+           time.stop();
+        });
+        time.getKeyFrames().add(frame);
+        time.playFromStart();
     }
 
     public void keyPress(KeyEvent keyEvent) {
@@ -156,36 +170,16 @@ public class sscnoteblockController implements Initializable {
         time.setCycleCount(Timeline.INDEFINITE);
         if (keyEvent.getCode() == KeyCode.CONTROL) {
             controlKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
-                controlKey.set(false);
-                time.stop();
-            });
-            time.getKeyFrames().add(frame);
-            time.playFromStart();
+            timerKeyPress(controlKey);
         } else if (keyEvent.getCode() == KeyCode.N) {
             nKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
-                nKey.set(false);
-                time.stop();
-            });
-            time.getKeyFrames().add(frame);
-            time.playFromStart();
+            timerKeyPress(nKey);
         } else if (keyEvent.getCode() == KeyCode.O) {
             oKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
-                nKey.set(false);
-                time.stop();
-            });
-            time.getKeyFrames().add(frame);
-            time.playFromStart();
+            timerKeyPress(oKey);
         } else if (keyEvent.getCode() == KeyCode.S) {
             sKey.set(true);
-            KeyFrame frame = new KeyFrame(Duration.seconds(0.2), event -> {
-                nKey.set(false);
-                time.stop();
-            });
-            time.getKeyFrames().add(frame);
-            time.playFromStart();
+            timerKeyPress(sKey);
         }
         newShortcut.addListener((observable, oldValue, newValue) -> {
             if (nKey.get() && controlKey.get()) {
@@ -405,21 +399,14 @@ public class sscnoteblockController implements Initializable {
         exitAlert.setContentText(null);
         ButtonType buttonCancel = new ButtonType("Cancel");
         ButtonType buttonDntSave = new ButtonType("Don't Save");
-        ButtonType buttonSave = new ButtonType("Save");
 
-        exitAlert.getButtonTypes().setAll(buttonSave, buttonDntSave, buttonCancel);
+        exitAlert.getButtonTypes().setAll(buttonDntSave, buttonCancel);
         Optional<ButtonType> result = exitAlert.showAndWait();
-        if (result.get() == buttonDntSave) {
+        if (buttonDntSave == result.get()) {
             System.exit(0);
         }
-        if (result.get() == buttonSave) {
-            try {
-                save();
-            } catch (IOException ignored) {
-            }
-            System.exit(0);
         }
     }
-    }
+
 
 
